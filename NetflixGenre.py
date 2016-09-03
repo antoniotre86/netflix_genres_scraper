@@ -1,10 +1,12 @@
 import urllib2
+
+import time
 from bs4 import BeautifulSoup
 import pkg_resources
 
 
 class NetflixGenre:
-    
+
     def __init__(self, genre_id):
         self.genre_id = genre_id
         self._title = None
@@ -20,7 +22,13 @@ class NetflixGenre:
     def netflixGenrePage(self, genre_id):
         opener = urllib2.build_opener()
         opener.addheaders.append(('Cookie', self._cookie))
-        page = opener.open('https://www.netflix.com/browse/genre/%d' %genre_id)
+        while True:
+            try:
+                page = opener.open('https://www.netflix.com/browse/genre/%d' %genre_id)
+            except urllib2.HTTPError:
+                time.sleep(5)
+                continue
+            break
         pagetxt = page.read()
         soup = BeautifulSoup(pagetxt, "lxml")
         return soup
@@ -42,7 +50,7 @@ class NetflixGenre:
             titles = []
             for t in title_containers:
                 for t_ in t.children:
-                    title = t_['aria-label']#.encode('utf-8')
+                    title = t_['aria-label']
                     if title:
                         titles.append(title)
             self._films = titles
