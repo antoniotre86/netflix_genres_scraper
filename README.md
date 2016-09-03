@@ -1,9 +1,9 @@
 # netflix_genres_scraper
 Scrapes Netflix for genres and film titles in each genre
 
-Paste your Netflix cookie id in ./cookie and you're good to go
-
 ---
+
+Paste your Netflix cookie id in ./cookie and you're good to go
 
 How to get your Netflix cookie (Chrome):
 
